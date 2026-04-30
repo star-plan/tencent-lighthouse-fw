@@ -23,6 +23,7 @@ dependencies = [
 ]
 
 [project.scripts]
+lighthouse-fw = "lighthouse_fw.entrypoint:main"
 lhfw = "lighthouse_fw.entrypoint:main"
 
 [tool.hatch.build.targets.wheel]

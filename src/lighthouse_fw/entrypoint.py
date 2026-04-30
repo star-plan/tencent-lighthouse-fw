@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+from pathlib import Path
 
 from .cli import app
 from .tui import run_tui
@@ -14,5 +15,7 @@ def main() -> None:
     if len(sys.argv) == 1:
         run_tui()
         return
-    app(prog_name="lhfw")
+    # Keep help/usage aligned with the actual executable name (lhfw or lighthouse-fw).
+    invoked_name = Path(sys.argv[0]).stem or "lhfw"
+    app(prog_name=invoked_name)
 
