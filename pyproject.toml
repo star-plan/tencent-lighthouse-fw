@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling>=1.27.0"]
+requires = ["hatchling>=1.27.0", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
 name = "lighthouse-fw"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Tencent Cloud Lighthouse firewall updater with CLI and TUI."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -28,4 +28,7 @@ lhfw = "lighthouse_fw.entrypoint:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/lighthouse_fw"]
+
+[tool.hatch.version]
+source = "vcs"
 
