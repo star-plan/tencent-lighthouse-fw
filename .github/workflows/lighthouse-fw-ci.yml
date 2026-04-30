@@ -3,11 +3,11 @@ name: lighthouse-fw-ci
 on:
   pull_request:
     paths:
-      - "2026-04-27/ssh-ssh-ip-ip-cn-ip/**"
+      - "**"
       - ".github/workflows/lighthouse-fw-ci.yml"
   push:
     paths:
-      - "2026-04-27/ssh-ssh-ip-ip-cn-ip/**"
+      - "**"
       - ".github/workflows/lighthouse-fw-ci.yml"
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: 2026-04-27/ssh-ssh-ip-ip-cn-ip
+        working-directory: .
 
     steps:
       - name: Checkout
