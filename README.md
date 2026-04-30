@@ -199,6 +199,70 @@ lhfw import-legacy .\tencent_lighthouse_fw.toml
 - `credential` 在 TUI 中默认隐藏，按需临时显示
 - `doctor` 默认是只读检查，不会逐台 server 修改任何东西
 
+## 腾讯云权限要求
+
+本工具通过腾讯云 API 管理轻量应用服务器的防火墙规则，需要为 API 密钥对应的子账号授予以下**全部**权限，缺一不可。
+
+### 操作步骤
+
+1. 打开 [访问管理 → 策略](https://console.cloud.tencent.com/cam/policy)
+2. 新建自定义策略，选择「按策略语法创建」，粘贴下方 JSON
+3. 将策略关联到 API 密钥对应的子账号
+
+### 所需权限列表
+
+**预设策略（基础只读，doctor 验证需要）：**
+
+| 策略名 | 说明 |
+|---|---|
+| `QcloudLighthouseReadOnlyAccess` | 轻量应用服务器只读权限（包含 `DescribeInstances` 等） |
+
+**自定义策略（防火墙规则管理，run 命令需要）：**
+
+```json
+{
+    "version": "2.0",
+    "statement": [
+        {
+            "effect": "allow",
+            "resource": ["*"],
+            "action": [
+                "lighthouse:DescribeFirewallRules",
+                "lighthouse:DescribeFirewallRulesTemplate",
+                "lighthouse:DescribePresetFirewallRules",
+                "lighthouse:CheckFirewallRules",
+                "lighthouse:CheckInstanceFirewallPorts",
+                "lighthouse:DescribeFirewallTemplateApplyRecords",
+                "lighthouse:DescribeFirewallTemplateQuota",
+                "lighthouse:DescribeFirewallTemplateRuleQuota",
+                "lighthouse:DescribeFirewallTemplateRules",
+                "lighthouse:DescribeFirewallTemplates",
+                "lighthouse:ApplyFirewallTemplate",
+                "lighthouse:CreateFirewallRules",
+                "lighthouse:CreateFirewallTemplate",
+                "lighthouse:CreateFirewallTemplateRules",
+                "lighthouse:DeleteFirewallRules",
+                "lighthouse:DeleteFirewallTemplate",
+                "lighthouse:DeleteFirewallTemplateRules",
+                "lighthouse:ModifyFirewallRuleDescription",
+                "lighthouse:ModifyFirewallRules",
+                "lighthouse:ModifyFirewallTemplate",
+                "lighthouse:ReplaceFirewallTemplateRule",
+                "lighthouse:ResetFirewallTemplateRules"
+            ]
+        }
+    ]
+}
+```
+
+### 权限与命令的对应关系
+
+| 命令 / 功能 | 所需权限 |
+|---|---|
+| `lhfw doctor` | `QcloudLighthouseReadOnlyAccess` |
+| `lhfw run`（预览 diff） | `QcloudLighthouseReadOnlyAccess` + 自定义策略中的读操作 |
+| `lhfw run --apply`（写入规则） | `QcloudLighthouseReadOnlyAccess` + 自定义策略中的全部操作 |
+
 ## 开发与测试
 
 ```powershell

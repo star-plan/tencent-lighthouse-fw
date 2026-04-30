@@ -143,11 +143,14 @@ def _build_doctor_report(repository: ConfigRepository) -> DoctorReport:
                 )
             )
         except TencentCloudSDKException as exc:
+            detail = str(exc)
+            if "UnauthorizedOperation" in detail or "NoPermission" in detail:
+                detail += "\n💡 请确认密钥已关联 QcloudLighthouseReadOnlyAccess 及防火墙自定义策略，详见 README「腾讯云权限要求」。"
             checks.append(
                 DoctorCheck(
                     name=f"credential:{credential.name}",
                     status="fail",
-                    detail=str(exc),
+                    detail=detail,
                 )
             )
         except Exception as exc:
