@@ -1,0 +1,97 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Sphinx documentation
+docs/_build/
+
+# pyenv
+.python-version
+
+# virtualenv / venv
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# IDE / editor
+.vscode/
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor temp files
+*~
+*.swp
+*.swo
+
+# Environments
+.env
+.env.*
+
+# Secrets and keys (local storage)
+secrets.bin
+secrets.key
+*.pem
+*.key
+
+# Local temp and artifacts
+temp/
+tmp/
+*.log
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Python compiled files
+*.pyc
+
+# UV / uvx artifacts
+uv.lock
+.venv/
+
+# Misc
+*.db
+
+# Note: keep example and sample config files (e.g. tencent_lighthouse_fw.toml) tracked intentionally.

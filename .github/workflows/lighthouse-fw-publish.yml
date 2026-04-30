@@ -1,0 +1,49 @@
+name: lighthouse-fw-publish
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    defaults:
+      run:
+        working-directory: 2026-04-27/ssh-ssh-ip-ip-cn-ip
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Sync dependencies
+        run: uv sync
+
+      - name: Run unit tests
+        run: uv run python -m unittest discover -s tests -v
+
+      - name: Build package
+        run: uv build
+
+      - name: uvx smoke test
+        env:
+          LHFW_CONFIG_DIR: ${{ runner.temp }}/lhfw-config
+          LHFW_STATE_DIR: ${{ runner.temp }}/lhfw-state
+        run: uvx --from . lhfw doctor
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: 2026-04-27/ssh-ssh-ip-ip-cn-ip/dist

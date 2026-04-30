@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lighthouse-fw"
+version = "0.1.0"
+description = "Tencent Cloud Lighthouse firewall updater with CLI and TUI."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "deali" }]
+dependencies = [
+  "cryptography>=45.0.0",
+  "keyring>=25.6.0",
+  "platformdirs>=4.3.0",
+  "requests>=2.32.0",
+  "rich>=14.0.0",
+  "textual>=3.2.0",
+  "tomli-w>=1.2.0",
+  "tencentcloud-sdk-python>=3.0.0",
+  "typer>=0.16.0",
+]
+
+[project.scripts]
+lhfw = "lighthouse_fw.entrypoint:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lighthouse_fw"]
+

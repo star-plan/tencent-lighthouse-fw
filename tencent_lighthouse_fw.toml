@@ -1,0 +1,48 @@
+[defaults]
+# 中国站：lighthouse.tencentcloudapi.com；国际站：lighthouse.intl.tencentcloudapi.com
+endpoint = "lighthouse.tencentcloudapi.com"
+
+# 公网 IP 查询源（按顺序尝试，支持多源容错）
+ip_sources = [
+  "https://myip.ipip.net/s",
+  "http://whois.pconline.com.cn/ipJson.jsp",
+]
+request_timeout_seconds = 3
+
+# managed_rules 的默认值（每条规则都可覆盖）
+protocol = "TCP"
+action = "ACCEPT"
+ssh_rule_description = "managed-by-tencent-lighthouse-fw"
+replace_existing_same_port = true
+
+[credentials.singapore]
+# 不要写死密钥，使用环境变量
+secret_id_env = "TENCENTCLOUD_SECRET_ID_WORK"
+secret_key_env = "TENCENTCLOUD_SECRET_KEY_WORK"
+# 强烈建议填写 region（例如 ap-shanghai / ap-guangzhou），也可在每台 server 上单独覆盖
+region = "ap-singapore"
+
+[credentials.guangzhou]
+secret_id_env = "TENCENTCLOUD_SECRET_ID_WORK"
+secret_key_env = "TENCENTCLOUD_SECRET_KEY_WORK"
+region = "ap-guangzhou"
+
+[[servers]]
+name = "guangzhou-debian"
+instance_id = "lhins-ruibrowb"
+credential = "guangzhou"
+# region/endpoint 可选：不填则使用 credentials.* 或 defaults
+managed_rules = [
+  # cidr = "AUTO" 表示自动使用当前公网 IP/32
+  { protocol = "TCP", port = "37661", action = "ACCEPT", cidr = "AUTO", description = "SSH, managed-by-tencent-lighthouse-fw", replace_existing_same_port = true },
+]
+
+[[servers]]
+name = "sg-debian12-docker26"
+instance_id = "lhins-lq2753vp"
+credential = "singapore"
+# region/endpoint 可选：不填则使用 credentials.* 或 defaults
+managed_rules = [
+  { protocol = "TCP", port = "31238", action = "ACCEPT", cidr = "AUTO", description = "SSH, managed-by-tencent-lighthouse-fw", replace_existing_same_port = true },
+]
+
