@@ -45,6 +45,7 @@ jobs:
 
       - name: uvx smoke test
         env:
+          PYTHONUTF8: "1"
           LHFW_CONFIG_DIR: ${{ runner.temp }}/lhfw-config
           LHFW_STATE_DIR: ${{ runner.temp }}/lhfw-state
         run: uvx --from . lhfw doctor

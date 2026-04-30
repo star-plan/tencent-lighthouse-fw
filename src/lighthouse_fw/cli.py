@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -27,6 +29,22 @@ from .storage import ConfigRepository
 from .updater import execute_run
 
 
+def _configure_windows_stdio_utf8() -> None:
+    """Best-effort UTF-8 stdio setup for legacy Windows console encodings."""
+
+    if os.name != "nt":
+        return
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if callable(reconfigure):
+            try:
+                reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                # Keep CLI functional even if the host stream can't be reconfigured.
+                pass
+
+
+_configure_windows_stdio_utf8()
 console = Console()
 app = typer.Typer(help="Tencent Cloud Lighthouse firewall manager.")
 credential_app = typer.Typer(help="Manage credential metadata and secrets.")
